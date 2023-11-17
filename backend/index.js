@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const router = require('./routes/router');
-const Schema = require('./models/schema.js');
+const Schema = require('./models/Schema');
 
 
 const mongoose = require('mongoose');

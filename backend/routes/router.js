@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Schema = require('./models/schema.js');
+const Schema = require('./models/Schema');
 
 
-const { Answer, Contact } = require('./models/schema');
+const { Answer, Contact } = require('./models/Schema');
 
 // Survey-vastausten käsittely
 router.post('/submitAnswer', async (req, res) => {

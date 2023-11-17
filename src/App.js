@@ -6,7 +6,7 @@ function App() {
 
   return ( 
 
-    <div> <h1>Survey App</h1> 
+    <div> <h1>Tutustutaanko lisää?</h1> 
 
     <NaryTree /> {}</div> 
 

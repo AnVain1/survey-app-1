@@ -1,37 +1,40 @@
-// Articles.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const Articles = ({ userAnswers }) => {
-  // Define articles based on user answers
+  const navigate = useNavigate();
+
+  const handleNavigateBack = () => {
+    navigate('/');
+  };
+
+  // vastauksiin perustuvat artikkelit
   const articles = [
     {
-      title: 'Article 1',
+      title: 'Koostimme tähän tietoa sinua kiinnostavista palveluista, ole hyvä!',
       answerParts: {
-        "uudet kotisivut": 'Part 1',
-        "uusi verkkokauppa": 'Part 2',
-        "yrityksen graafinen ilme": 'Part 3',
-        "ylläpito yrityksen sähköisille kanaville": 'Part 4',
-        "somekanavat": 'Part 5',
-        "yksilöllinen web- tai mobiilisovellus": 'Part 6',
-        "sähköisen liiketoiminnan kokonaiskartoitus": 'Part 7',
-        "kansainvälistymisen palvelut": 'Part 8',
+        "uudet kotisivut": 'Part 1 content',
+        "uusi verkkokauppa": 'Part 2 content',
+        "yksilöllinen web- tai mobiilisovellus": 'Part 3 content',
+        "digitaalinen markkinointi": 'Part 4 content',
+        "sisällöntuotanto ja käännökset": 'Part 5 content',
+        "yrityksen graafinen ilme": 'Part 6 content',
+        "sähköisen liiketoiminnan kokonaiskartoitus": 'Part 7 content',
+        "kansainvälistymisen palvelut": 'Part 8 content'
       },
     },
-    // Define more articles as needed
   ];
 
-  // Function to render article parts
+  // Artikkeliosien renderöiminen
   const renderArticleParts = (answer) => (
-    <ul>
-      <li>
-        <a href={`https://your-wix-website.com/${articles[0].answerParts[answer]}`} target="_blank" rel="noopener noreferrer">
-          {articles[0].answerParts[answer]}
-        </a>
-      </li>
-    </ul>
+    <div>
+      <p>{articles[0].answerParts[answer]}</p>
+      <button onClick={handleNavigateBack}>Back to Main Page</button>
+    </div>
   );
 
-  // Function to render articles
+  // Artikkelien renderöiminen
   const renderArticles = () => (
     <div>
       {articles.map((article, index) => (

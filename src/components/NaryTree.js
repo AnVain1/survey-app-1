@@ -29,67 +29,55 @@ const NaryTree = () => {
   const firstChildNode = new Node("Mitkä vaihtoehdot kuvaavat parhaiten yrityksesi tämänhetkistä tarvetta?", [
     "uudet kotisivut",
     "uusi verkkokauppa",
-    "yrityksen graafinen ilme",
-    "ylläpito yrityksen sähköisille kanaville",
-    "somekanavat",
     "yksilöllinen web- tai mobiilisovellus",
+    "digitaalinen markkinointi",
+    "sisällöntuotanto ja käännökset",
+    "yrityksen graafinen ilme",
     "sähköisen liiketoiminnan kokonaiskartoitus",
     "kansainvälistymisen palvelut"
   ]);
   root.setFirstChild(firstChildNode);
 
   const [currentNode, setCurrentNode] = useState(root);
-
   const [userAnswers, setUserAnswers] = useState([]);
   const [showContactForm, setShowContactForm] = useState(false);
 
-// Funktio joka käsittelee surveyn vastauksia
-const handleSurveySubmit = async () => {
-  try {
-    // Tallenna vastaukset selaimen local storageen
-    localStorage.setItem('surveyAnswers', JSON.stringify(userAnswers));
-    // Tallenna vastaukset tietokantaan
-    await axios.post('/api/save-answer', { answers: userAnswers });
-  } catch (error) {
-    console.error('Error saving survey answers:', error);
-  }
-};
-
-// Funktio yhteystietojen käsittelyyn
-const handleContactSubmit = async (contactData) => {
-  try {
-    // Contact formin tietojen tallentaminen tietokantaan
-    await axios.post('/api/save-contact', contactData);
-
-    // Poista vastaukset local storagesta
-    localStorage.removeItem('surveyAnswers');
-    
-  } catch (error) {
-    console.error('Error saving contact information:', error);
-  }
-};
-const handleAnswer = (answer) => {
-  setUserAnswers([...userAnswers, answer]);
-  if (currentNode.nextSibling) {
-    setCurrentNode(currentNode.nextSibling);
-  } else if (currentNode.firstChild) {
-    setCurrentNode(currentNode.firstChild);
-
-    if (currentNode.question === 'Ask for contact information') {
+  const handleSurveySubmit = async () => {
+    try {
+      localStorage.setItem('surveyAnswers', JSON.stringify(userAnswers));
+      await axios.post('/api/save-answer', { answers: userAnswers });
       setShowContactForm(true);
-      // Surveyn vastaukset tallennetaan ennen contact formia 
-      handleSurveySubmit();
+    } catch (error) {
+      console.error('Error saving survey answers:', error);
     }
-  } else {
-    // Kyselyn loppu
-    // Tee toimenpiteitä vastausten käsittelemiseksi
-    console.log('User Answers:', userAnswers);
-  }
-};
+  };
+
+  const handleContactSubmit = async (contactData) => {
+    try {
+      await axios.post('/api/save-contact', contactData);
+      localStorage.removeItem('surveyAnswers');
+    } catch (error) {
+      console.error('Error saving contact information:', error);
+    }
+  };
+
+  const handleAnswer = (answer) => {
+    setUserAnswers([...userAnswers, answer]);
+    if (currentNode.nextSibling) {
+      setCurrentNode(currentNode.nextSibling);
+    } else if (currentNode.firstChild) {
+      setCurrentNode(currentNode.firstChild);
+
+      if (currentNode.question === 'Ask for contact information') {
+        handleSurveySubmit();
+      }
+    } else {
+      console.log('User Answers:', userAnswers);
+    }
+  };
 
   return (
     <div>
-      {/* Render the contact form if showContactForm is true */}
       {showContactForm ? (
         <ContactForm onSubmit={handleContactSubmit} />
       ) : (
@@ -102,7 +90,6 @@ const handleAnswer = (answer) => {
               </li>
             ))}
           </ul>
-          {/* Render the Articles component after submitting answers */}
           {userAnswers.length > 0 && <Articles userAnswers={userAnswers} />}
         </>
       )}

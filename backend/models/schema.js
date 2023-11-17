@@ -38,13 +38,13 @@ const contactSchema = new Schema({
 const Answer = mongoose.model('Answer', answerSchema, 'answers');
 const Contact = mongoose.model('Contact', contactSchema, 'contact-form');
 
-// MongoDB connection options
+// MongoDB yhteys
 const dbOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
 
-// MongoDB connection string 
+// MongoDB string 
 const mongoURI = process.env.MONGO_URI;
 
 // Yhdistä MongoDB
